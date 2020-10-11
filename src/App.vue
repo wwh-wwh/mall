@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <mainTabBar></mainTabBar>
+    <mainTabBar id="main-tab-bar"/>
   </div>
 </template>
 
@@ -17,4 +17,7 @@ export default {
 
 <style>
   @import "./assets/css/base.css";/*引入公用css*/
+  #main-tab-bar{
+    z-index: 99;
+  }
 </style>

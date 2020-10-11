@@ -3,8 +3,8 @@ import vueRouter from 'vue-router'
 
 const Home = () => import('../views/home/Home')//首页
 const Category = () => import('../views/category/Category')//分类
-const Shop = () => import('../views/cart/Cart')//购物车
-const Mine = () => import('../views/profile/Profile')//我的
+const Cart = () => import('../views/cart/Cart')//购物车
+const Profile = () => import('../views/profile/Profile')//我的
 
 
 
@@ -26,11 +26,11 @@ const router = new vueRouter({
     },
     {
       path: '/cart',
-      component: Shop
+      component: Cart
     },
     {
       path: '/profile',
-      component: Mine
+      component: Profile
     }],
   mode: 'history'
 })

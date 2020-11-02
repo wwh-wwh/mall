@@ -5,6 +5,7 @@ const Home = () => import('../views/home/Home')//首页
 const Category = () => import('../views/category/Category')//分类
 const Cart = () => import('../views/cart/Cart')//购物车
 const Profile = () => import('../views/profile/Profile')//我的
+const Detail = () =>import('../views/detail/Detail')//详情页面
 
 
 
@@ -31,6 +32,10 @@ const router = new vueRouter({
     {
       path: '/profile',
       component: Profile
+    },
+    {
+      path:'/detail/:iid',
+      component:Detail
     }],
   mode: 'history'
 })

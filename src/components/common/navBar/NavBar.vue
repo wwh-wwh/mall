@@ -23,8 +23,7 @@
     display: flex;/*使用flex布局*/
     line-height: 44px;
     box-shadow: 0 1px 1px 0 rgba(100,100,100,0.1);
-    background-color: var(--color-tint);
-    color: #f6f6f6;
+
   }
 
   .left, .right {

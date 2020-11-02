@@ -1,16 +1,18 @@
 <template>
-  <div class="goods-item" >
-<!--    商品图片-->
+
+  <div class="goods-item" @click="itemClick">
+    <!--    商品图片-->
     <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
-<!--   商品信息   -->
+      <!--   商品信息   -->
       <p>{{goodsItem.title}}</p>
-<!--      商品价格-->
+      <!--      商品价格-->
       <span class="price">{{goodsItem.price}}</span>
-<!--      商品收藏数量-->
+      <!--      商品收藏数量-->
       <span class="collect">{{goodsItem.cfav}}</span>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -27,11 +29,15 @@
     data() {
       return {}
     },
-    methods:{
+    methods: {
       //监听图片加载完毕动作
-      imageLoad(){
+      imageLoad() {
         this.$bus.$emit('itemImageLoad')
         // console.log('imageLoad');
+      },
+      itemClick() {
+        console.log(this.goodsItem.iid);
+        this.$router.push('/detail/' + this.goodsItem.iid)
       }
     }
   }
@@ -42,14 +48,14 @@
     padding-bottom: 50px;
     position: relative;
     width: 48%;
-    z-index: -1;
+
   }
-  .goods-item img{
+
+  .goods-item img {
     width: 100%;
     height: 100%;
     border-radius: 5px;
   }
-
 
 
   .goods-info {

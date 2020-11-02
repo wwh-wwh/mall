@@ -1,12 +1,12 @@
 <template>
   <div id="top">
-    <img src="../../../assets/img/common/top.png" alt="回到顶部">
+    <img src="../../../assets/img/common/top.png" alt="回到顶部" >
   </div>
 </template>
 
 <script>
   export default {
-    name: "BackTop"
+    name: "BackTop",
   }
 </script>
 

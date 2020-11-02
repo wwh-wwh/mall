@@ -42,7 +42,7 @@
         totalWidth: 0, // swiper的宽度
         swiperStyle: {}, // swiper样式
         currentIndex: 1, // 当前的index
-        scrolling: true, // 是否正在滚动
+        scrolling: false, // 是否正在滚动
       }
     },
     mounted: function () {
@@ -59,8 +59,10 @@
        * 定时器操作
        */
       startTimer: function () {
+        //setInterval函数每秒都会执行一次
         this.playTimer = window.setInterval(() => {
           this.currentIndex++;
+          //调用方法scrollContent
           this.scrollContent(-this.currentIndex * this.totalWidth);
         }, this.interval)
       },
@@ -145,6 +147,7 @@
        */
       touchStart: function (e) {
         // 1.如果正在滚动, 不可以拖动
+
         if (this.scrolling) return;
 
         // 2.停止定时器

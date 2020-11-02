@@ -7,7 +7,7 @@
     <tab-control :titles="['流行','新款','精选']"
                  class="tabControl"
                  @tabClick="tabClick"
-                 ref="tabControl"
+                 ref="tabControl1"
                  v-show="isfixed"  />
     <Scroll class="wrapper"
             ref="scroll"
@@ -21,8 +21,8 @@
       <feature-view/>
       <tab-control :titles="['流行','新款','精选']"
                    @tabClick="tabClick"
-                   ref="tabControl" />
-      <good-list :goods="goods[currentType].list" class="good-list"/>
+                   ref="tabControl2" />
+      <good-list :goods="showGoodLists" class="good-list"/>
     </Scroll>
     <back-top @click.native="backTClick" v-show="isBackTopActive"/>
 
@@ -37,7 +37,7 @@
   import BackTop from "../../components/content/backTop/BackTop";
 
   import HomeSwiper from "./childComps/HomeSwiper";
-  import RecommendView from "./childComps/RecommendView"
+  import RecommendView from "./childComps/RecommendView";
   import FeatureView from "./childComps/FeatureView";
 
 
@@ -71,16 +71,56 @@
           'sell': {page: 0, list: []}
         },
         tabOffsetTop:0,
-        isfixed:false
+        isfixed:false,
+        saveY:{
+          'pop':0,
+          'new':0,
+          'sell':0
+        },
+      }
+    },
+    computed:{
+      showGoodLists(){
+        return this.goods[this.currentType].list
+      }
+    },
+    //生命周期销毁
+    destroyed() {
+      console.log('销毁事件');
+    },
+    activated() {
+      // console.log('activated');
+      // this.$refs.scroll.scrollTo(0,this.saveY)
+      // this.$refs.scroll.scrollTo(0,this.saveY.new)
+      if (this.currentType==='pop'){
+        this.$refs.scroll.scrollTo(0,this.saveY.pop);
+        // console.log('pop'+this.saveY.pop);
+      }
+      if (this.currentType==='new'){
+        this.$refs.scroll.scrollTo(0,this.saveY.new);
+        // console.log('pop'+this.saveY.new);
+      }
+      if (this.currentType==='sell'){
+        this.$refs.scroll.scrollTo(0,this.saveY.sell);
+        // console.log('sell'+this.saveY.sell);
+      }
+      this.$refs.scroll.refresh()
+    },
+    deactivated() {
+      // console.log('deactivated');
+      // this.saveY=this.$refs.scroll.scroll.y;
+      if(this.currentType){
+        this.saveY[this.currentType]=this.$refs.scroll.scroll.y;
+        // console.log(this.saveY[this.currentType]+this.currentType);
       }
     },
     /**
      *调用网络请求方法
      */
     created() {
-      this.getHomeMultidata()
-      this.getHomeGoods('pop')
-      this.getHomeGoods('new')
+      this.getHomeMultidata();
+      this.getHomeGoods('pop');
+      this.getHomeGoods('new');
       this.getHomeGoods('sell')
     },
     mounted() {
@@ -108,6 +148,9 @@
             this.currentType = 'sell';
             break;
         }
+        //设置两个tabControl显示选中状态一致
+        this.$refs.tabControl1.currentIndex=index;
+        this.$refs.tabControl2.currentIndex=index;
       },
       /**
        *回到顶部点击事件
@@ -118,14 +161,19 @@
       //设置BackTop组件滚动到固定位置的显示或隐藏
       contentScroll(position) {
         //监测回到顶部的的距离
-        this.isBackTopActive = (-position.y) > 600
+        this.isBackTopActive = (-position.y) > 600;
         //检测tabControl吸顶的距离
         this.isfixed=(-position.y)>580
       },
-      swiperLoad(){
-        this.tabOffsetTop=this.$refs.tabControl.$el.offsetTop;//记录tabcontrol距离顶部的距离，使用offsetTop这个属性获取
-        console.log(this.tabOffsetTop);
+      //上拉加载更多事件
+      pullingUp(){
+        this.getHomeGoods(this.currentType)
       },
+      //记录tabcontrol距离顶部的距离，使用offsetTop这个属性获取
+      swiperLoad(){
+        this.tabOffsetTop=this.$refs.tabControl2.$el.offsetTop;
+      },
+
 
       /**
        * 网络请求相关的方法
@@ -140,22 +188,19 @@
       //请求GoodList数据
       getHomeGoods(type) {
         //将页码进行加一
-        const page = this.goods[type].page + 1
+        const page = this.goods[type].page + 1;
         //传入动态的type与page
         getHomeGoods(type, page).then(res => {
 
           // ...res.data.list,特殊语法...这三个点是自动解析了数组并自动将系数组按顺序填入到goods[type]的数组中
-          this.goods[type].list.push(...res.data.data.list)
+          this.goods[type].list.push(...res.data.data.list);
           // 将默认的页码进行+1
-          this.goods[type].page += 1
+          this.goods[type].page += 1;
           //当上拉加载完之后调用这个方法，表示上拉加载已经完成，方便后来上拉加载再次调用上拉加载更多
           this.$refs.scroll.finishPullUp()
         })
       },
-      //上拉加载更多事件
-      pullingUp(){
-        this.getHomeGoods(this.currentType)
-      }
+
     }
   }
 </script>
@@ -168,6 +213,8 @@
   }
 
   .navBar-home {
+    background-color: var(--color-tint);
+    color: #f6f6f6;
     position: fixed;
     right: 0px;
     left: 0px;
@@ -178,11 +225,11 @@
 
   /*使用position:sticky这个属性来固定第二个导航栏*/
   /**/
-  .tab-control {
+  /*.tab-control {*/
     /*position: sticky;*/
     /*top: 44px;*/
     /*!*z-index: 999;*!*/
-  }
+  /*}*/
 
   .wrapper {
     position: absolute;

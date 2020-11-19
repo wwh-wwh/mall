@@ -22,7 +22,7 @@
       <tab-control :titles="['流行','新款','精选']"
                    @tabClick="tabClick"
                    ref="tabControl2" />
-      <good-list :goods="showGoodLists" class="good-list"/>
+      <good-list :goods="showGoodLists" class="good-list" />
     </Scroll>
     <back-top @click.native="backTClick" v-show="isBackTopActive"/>
 
@@ -43,7 +43,7 @@
 
   import {getHomeMultidata, getHomeGoods} from "network/home";
   import {debounce} from "common/utils";
-
+  import {itemImageMixin} from "../../common/mixin";
 
   export default {
     name: "Home",
@@ -57,6 +57,7 @@
       Scroll,
       BackTop
     },
+    mixins:[itemImageMixin],
     data() {
       return {
         result: null,
@@ -113,6 +114,8 @@
         this.saveY[this.currentType]=this.$refs.scroll.scroll.y;
         // console.log(this.saveY[this.currentType]+this.currentType);
       }
+      this.$bus.$off('itemImageLoad',this.itemImgListener)
+      console.log('取消加载刷新');
     },
     /**
      *调用网络请求方法
@@ -124,11 +127,10 @@
       this.getHomeGoods('sell')
     },
     mounted() {
-      //防抖方法，为了避免搜索平凡给服务器过大的压力设置访问刷新时长
-      const refresh = debounce(this.$refs.scroll.refresh,20);
-      this.$bus.$on('itemImageLoad', () => {
-        refresh()//调用Scroll中的refresh刷新方法
-      })
+      // //防抖方法，为了避免搜索平凡给服务器过大的压力设置访问刷新时长
+      // const refresh = debounce(this.$refs.scroll.refresh,20);
+      // this.itemImgListener=()=>{refresh()};
+      // this.$bus.$on('itemImageLoad', this.itemImgListener)
 
     },
 

@@ -1,3 +1,4 @@
+<!--详情图片组件-->
 <template>
   <div id="detail-info" v-if="Object.keys(detailInfo).length!==0">
     <div class="info-desc">
@@ -36,10 +37,11 @@
       imageload() {
         // console.log(this.currentIndex+'currentIndex');
         // console.log(this.imageList+'imageList');
-        if (++this.currentIndex > this.imageList) {
-          console.log('-----');
+
+        // if (++this.currentIndex > this.imageList) {
+          console.log('------------');
           this.$emit('detailImageLoad')
-        }
+        // }
       }
     },
     watch: {

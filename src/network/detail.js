@@ -40,5 +40,10 @@ export class GoodsPrams {
     this.infos=info.set;
     this.sizes=rule.tables;
   }
+}
 
+export function getRecommend() {
+  return request({
+    url:'/recommend'
+  })
 }

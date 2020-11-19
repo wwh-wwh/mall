@@ -3,7 +3,7 @@
 
     <div class="shop-top">
       <img :src="shops.logo" alt="">
-      <span class="shop-title">{{shops.name}}</span>
+      <span class="shop-title" >{{shops.name}}</span>
     </div>
 
     <div class="shop-middle">

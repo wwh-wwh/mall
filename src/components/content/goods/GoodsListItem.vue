@@ -2,7 +2,7 @@
 
   <div class="goods-item" @click="itemClick">
     <!--    商品图片-->
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+    <img :src="showGoodsImage" alt="" @load="imageLoad">
     <div class="goods-info">
       <!--   商品信息   -->
       <p>{{goodsItem.title}}</p>
@@ -12,7 +12,6 @@
       <span class="collect">{{goodsItem.cfav}}</span>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -33,11 +32,17 @@
       //监听图片加载完毕动作
       imageLoad() {
         this.$bus.$emit('itemImageLoad')
-        // console.log('imageLoad');
+        // console.log('--------------------imageLoad');
       },
       itemClick() {
-        console.log(this.goodsItem.iid);
-        this.$router.push('/detail/' + this.goodsItem.iid)
+        console.log(this.goodsItem.iid||this.goodsItem.item_id);
+        this.$router.push('/detail/' + (this.goodsItem.iid||this.goodsItem.item_id))
+      }
+    },
+    computed:{
+      showGoodsImage(){
+        //当image为空时返回img
+        return this.goodsItem.image||this.goodsItem.show.img
       }
     }
   }

@@ -36,31 +36,38 @@
 </script>
 
 <style scoped>
-  .goods-prams{
+  .goods-prams {
     padding: 20px 15px;
     font-size: 14px;
     border-bottom: 1px solid #f2f5f8;
   }
-  .goods-prams table{
+
+  .goods-prams table {
     width: 100%;
     border-collapse: collapse;
 
   }
-  .goods-prams table tr{
+
+  .goods-prams table tr {
     height: 42px;
   }
-  .goods-prams table tr td{
-    border-bottom: 1px solid rgba(100,100,100,1);
-  }
-.prams-key{
-  color: #666666;
-}
-.prams-value{
-  /*padding-left: 30px;*/
-  color: var(--color-tint);
-}
 
-.size-td{
-  /*text-align: center;*/
-}
+  .goods-prams table tr td {
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+  }
+
+  .prams-key {
+    width: 30px;
+    color: #666666;
+  }
+
+  .prams-value {
+    padding-left: 30px;
+    color: var(--color-tint);
+  }
+
+  .info-img img {
+    width: 100%;
+  }
+
 </style>

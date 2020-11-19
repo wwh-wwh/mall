@@ -3,8 +3,8 @@
     <div class="info-title">{{goods.title}}</div>
     <div class="info-price">
       <span class="n-price">{{goods.newPrice}}</span>&nbsp;
-      <span class="o-price">{{goods.oldPrice}}</span>&nbsp;
-      <span class="discount">{{goods.discount}}</span>&nbsp;
+      <span class="o-price" v-if="goods.oldPrice!==null">{{goods.oldPrice}}</span>&nbsp;
+      <span :class="{discount:goods.discount!==''}">{{goods.discount}}</span>&nbsp;
     </div>
     <div class="item-other">
       <span>{{goods.columns[0]}}</span>
@@ -35,6 +35,9 @@
         }
       }
     },
+mounted() {
+  console.log(this.goods);
+},
     destroyed() {
       this.columns = this.goods.columns
     }
